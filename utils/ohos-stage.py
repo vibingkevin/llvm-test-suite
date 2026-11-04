@@ -35,7 +35,7 @@ def include(info):
 with tempfile.TemporaryDirectory(prefix="ohos-stage-") as tmp:
     archive = Path(tmp) / "tests.tar"
     with tarfile.open(archive, "w", dereference=True) as tar:
-        for name in ("SingleSource", "MultiSource"):
+        for name in ("SingleSource", "MultiSource", "Bitcode", "MicroBenchmarks", "CTMark", "External"):
             if (build / name).is_dir():
                 tar.add(build / name, arcname=name, filter=include)
         for parent in sorted({p.parent for p in build.rglob("*.test")}):

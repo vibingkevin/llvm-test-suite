@@ -6,6 +6,13 @@ if(TEST_SUITE_POVRAY_ROOT)
     ${TEST_SUITE_POVRAY_ROOT}/source/*.c
     ${TEST_SUITE_POVRAY_ROOT}/source/libpng/*.c
   )
+  # The official Unix archive keeps these platform files in source/unix.
+  if(NOT EXISTS "${TEST_SUITE_POVRAY_ROOT}/source/config.h")
+    configure_file("${TEST_SUITE_POVRAY_ROOT}/source/unix/unixconf.h"
+                   "${CMAKE_CURRENT_BINARY_DIR}/config.h" COPYONLY)
+    list(APPEND CPPFLAGS -I${CMAKE_CURRENT_BINARY_DIR})
+    list(APPEND Source "${TEST_SUITE_POVRAY_ROOT}/source/unix/unix.c")
+  endif()
   list(REMOVE_ITEM Source
     ${TEST_SUITE_POVRAY_ROOT}/source/libpng/ansi2knr.c
     ${TEST_SUITE_POVRAY_ROOT}/source/libpng/pngtest.c

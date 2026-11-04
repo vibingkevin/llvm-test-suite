@@ -8,6 +8,9 @@ import lit.Test
 def _mutateCommandLine(context, commandline):
     cmd = shellcommand.parse(commandline)
     cmd.arguments.append("--benchmark_format=json")
+    min_time = context.litConfig.params.get("microbenchmark_min_time")
+    if min_time is not None:
+        cmd.arguments.append("--benchmark_min_time=" + min_time)
     # We need stdout outself to get the benchmark csv data.
     if cmd.stdout is not None:
         raise Exception("Rerouting stdout not allowed for microbenchmarks")
@@ -32,12 +35,16 @@ def _collectMicrobenchmarkTime(context, microbenchfiles):
             # Name for MicroBenchmark
             name = benchmark["name"]
 
-            # Create Result object with PASS
-            microBenchmark = lit.Test.Result(lit.Test.PASS)
+            # A benchmark can report a failed correctness check in valid JSON.
+            failed = benchmark.get("error_occurred", False)
+            microBenchmark = lit.Test.Result(
+                lit.Test.FAIL if failed else lit.Test.PASS,
+                benchmark.get("error_message", "") if failed else "",
+            )
 
-            # Add the exec_time metric for this result
-            exec_time_metric = lit.Test.toMetricValue(benchmark["cpu_time"])
-            microBenchmark.addMetric("exec_time", exec_time_metric)
+            if "cpu_time" in benchmark:
+                exec_time_metric = lit.Test.toMetricValue(benchmark["cpu_time"])
+                microBenchmark.addMetric("exec_time", exec_time_metric)
 
             # Add Micro Result
             context.micro_results[name] = microBenchmark

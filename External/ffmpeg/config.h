@@ -525,7 +525,11 @@
 #define HAVE_POSIX_MEMALIGN 1
 #endif
 #define HAVE_PRCTL 0
+#ifdef __OHOS__
+#define HAVE_PTHREAD_CANCEL 0
+#else
 #define HAVE_PTHREAD_CANCEL 1
+#endif
 #define HAVE_PTHREAD_SET_NAME_NP 0
 #define HAVE_PTHREAD_SETNAME_NP 0
 #define HAVE_SCHED_GETAFFINITY 0

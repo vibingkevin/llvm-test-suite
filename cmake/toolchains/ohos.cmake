@@ -12,14 +12,16 @@ set(CMAKE_C_COMPILER "${LLVM_HOME}/bin/clang")
 set(CMAKE_CXX_COMPILER "${LLVM_HOME}/bin/clang++")
 set(CMAKE_C_COMPILER_TARGET aarch64-unknown-linux-ohos)
 set(CMAKE_CXX_COMPILER_TARGET aarch64-unknown-linux-ohos)
+set(CMAKE_ASM_COMPILER "${LLVM_HOME}/bin/clang")
+set(CMAKE_ASM_COMPILER_TARGET aarch64-unknown-linux-ohos)
 set(CMAKE_SYSROOT "${OHOS_SDK}/sysroot")
 set(CMAKE_AR "${LLVM_HOME}/bin/llvm-ar")
 set(CMAKE_RANLIB "${LLVM_HOME}/bin/llvm-ranlib")
 set(CMAKE_NM "${LLVM_HOME}/bin/llvm-nm")
 set(CMAKE_STRIP "${LLVM_HOME}/bin/llvm-strip")
-# Match compileWithClang in test/jb2420-minimal-ohos-native, including its SDK
-# resource headers. A failure caused by those headers is a setup limitation.
-set(CMAKE_C_FLAGS_INIT "-B${OHOS_SDK}/llvm/bin -fno-stack-protector -fPIC -resource-dir=${OHOS_SDK}/llvm/lib/clang/15.0.4")
+# Ordinary Kotlin runtime/cinterop compilation uses the compiler's intrinsic
+# headers. Only linking selects the SDK resource directory for its runtimes.
+set(CMAKE_C_FLAGS_INIT "-B${OHOS_SDK}/llvm/bin -fno-stack-protector -fPIC")
 set(CMAKE_CXX_FLAGS_INIT "${CMAKE_C_FLAGS_INIT} -nostdinc++ -isystem ${OHOS_SDK}/llvm/include/libcxx-ohos/include/c++/v1")
 set(OHOS_LINK_FLAGS "-resource-dir=${OHOS_SDK}/llvm/lib/clang/15.0.4 --ld-path=${LLVM_HOME}/bin/ld.lld -L${OHOS_SDK}/llvm/lib/aarch64-linux-ohos")
 set(CMAKE_EXE_LINKER_FLAGS_INIT "${OHOS_LINK_FLAGS} -pie -lc++ -lpthread")
