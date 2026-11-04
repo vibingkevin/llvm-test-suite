@@ -108,7 +108,11 @@ void deliver(int argc,char *hostv[],char *userv[],enum eform formv[],
 **  for inclusion in the message that is returned with failed mail.
 */
 		(void) unlink(stderrfile);
+#ifdef __OHOS__
+		(void) strcpy(stderrfile, "stderrXXXXXX");
+#else
 		(void) strcpy(stderrfile, "/tmp/stderrXXXXXX");
+#endif
 		(void) mktemp(stderrfile);
 		(void) freopen(stderrfile, "w", stderr);
 		if(debug != YES) {

@@ -1,3 +1,8 @@
+include(CheckFunctionExists)
+check_function_exists(getpass HAVE_GETPASS)
+if(NOT HAVE_GETPASS)
+  list(APPEND CPPFLAGS -DSIOD_NO_GETPASS)
+endif()
 list(APPEND CPPFLAGS -D__USE_MISC -D__USE_GNU -D__USE_SVID -D__USE_XOPEN_EXTENDED -D__USE_XOPEN -Dunix)
 list(APPEND CFLAGS -Wno-implicit-function-declaration -Wno-implicit-int -Wno-int-conversion)
 list(APPEND LDFLAGS -lm)

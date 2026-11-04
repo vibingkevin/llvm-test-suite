@@ -1,3 +1,6 @@
+if(CMAKE_C_COMPILER_TARGET MATCHES "ohos")
+  list(APPEND CPPFLAGS -Drindex=strrchr)
+endif()
 list(APPEND CPPFLAGS -Dconst=)
 list(APPEND CFLAGS -Wno-implicit-function-declaration -Wno-implicit-int)
 list(APPEND LDFLAGS -lm)

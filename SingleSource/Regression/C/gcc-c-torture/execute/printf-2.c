@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __OHOS__
+#include <unistd.h>
+#endif
 
 __attribute__ ((noipa)) void
 write_file (void)
@@ -23,7 +26,16 @@ write_file (void)
 
 int main (void)
 {
+#ifdef __OHOS__
+  /* The device has no writable /tmp; use the test working directory. */
+  char tmpfname[] = "printf-2.XXXXXX";
+  int fd = mkstemp (tmpfname);
+  if (fd < 0)
+    abort ();
+  close (fd);
+#else
   char *tmpfname = tmpnam (0);
+#endif
   FILE *f = freopen (tmpfname, "w", stdout);
   if (!f)
     {

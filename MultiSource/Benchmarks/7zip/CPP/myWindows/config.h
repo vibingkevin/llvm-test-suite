@@ -25,7 +25,9 @@
   #endif /* !ENV_MACOSX && !ENV_BEOS */
 
   #if !defined(ENV_BEOS)
+    #ifndef __OHOS__
     #define ENV_HAVE_GETPASS
+    #endif
 
     #if !defined(sun) && !defined(_AIX)
       #define ENV_HAVE_TIMEGM

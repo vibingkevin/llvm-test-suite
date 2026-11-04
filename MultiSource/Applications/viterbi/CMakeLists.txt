@@ -1,5 +1,6 @@
 list(APPEND CPPFLAGS -I${CMAKE_CURRENT_SOURCE_DIR} -DPROJ_SRC_DIR=".")
 if(SMALL_PROBLEM_SIZE)
+  list(APPEND CPPFLAGS -DSMALL_PROBLEM_SIZE)
   set(INPUTS Dist_demux_small)
 else()
   set(INPUTS Dist_demux)

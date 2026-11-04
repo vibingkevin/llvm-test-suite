@@ -56,7 +56,7 @@ endif()
 if(TARGET_OS STREQUAL "mingw")
   list(APPEND CPPFLAGS -DC_WINDOWS)
 endif()
-if(TARGET_OS STREQUAL "Linux")
+if(TARGET_OS STREQUAL "Linux" AND NOT CMAKE_C_COMPILER_TARGET MATCHES "ohos")
   list(APPEND CPPFLAGS -DC_LINUX)
 endif()
 if(NOT ARCH STREQUAL "ARM")
@@ -174,7 +174,7 @@ llvm_multisource(clamscan
   zlib_uncompr.c
   zlib_zutil.c
 )
-if(TARGET_OS STREQUAL "Linux")
+if(TARGET_OS STREQUAL "Linux" AND NOT CMAKE_C_COMPILER_TARGET MATCHES "ohos")
   find_package(Intl REQUIRED)
   target_link_libraries(clamscan ${Intl_LIBRARIES})
 endif()

@@ -1791,7 +1791,7 @@ LISP rld_pathnames(void)
  return(nreverse(result));}
 #endif
 
-#ifdef unix
+#if defined(unix) && !defined(SIOD_NO_GETPASS)
 LISP lgetpass(LISP lprompt)
 {long iflag;
  char *result;
@@ -2288,7 +2288,9 @@ void __stdcall init_slibu(void)
 #endif
 #ifdef unix
  init_subr_2("strftime",lstrftime);
+#ifndef SIOD_NO_GETPASS
  init_subr_1("getpass",lgetpass);
+#endif
  init_subr_0("pipe",lpipe);
  init_subr_2("alarm",lalarm);
 #endif

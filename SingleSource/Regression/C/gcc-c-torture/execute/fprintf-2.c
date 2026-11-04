@@ -6,10 +6,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __OHOS__
+#include <unistd.h>
+#endif
 
 int main (void)
 {
+#ifdef __OHOS__
+  /* The device has no writable /tmp; use the test working directory. */
+  char tmpfname[] = "fprintf-2.XXXXXX";
+  int fd = mkstemp (tmpfname);
+  if (fd < 0)
+    abort ();
+  close (fd);
+#else
   char *tmpfname = tmpnam (0);
+#endif
   FILE *f = fopen (tmpfname, "w");
   if (!f)
     {

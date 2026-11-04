@@ -265,7 +265,11 @@ int islocal(char *addr,char *domain,char *user)
 
 void spool(int argc,char **argv)
 {
-	static char *tmpf = "/tmp/rmXXXXXX";	/* temp file name */
+#ifdef __OHOS__
+	static char *tmpf = "rmXXXXXX";
+#else
+	static char *tmpf = "/tmp/rmXXXXXX";
+#endif	/* temp file name */
 	char *mktemp();
 	char buf[SMLBUF];
 	static char splbuf[SMLBUF];

@@ -853,7 +853,8 @@ int main(int argc, char *argv[])
   ifdebug(DET, D, EnvDebug());
 
 #if LOCALE_ON
-  catclose(MsgCat);
+  if( MsgCat != (nl_catd) -1 )
+    catclose(MsgCat);
 #endif
 
   exit(0);
